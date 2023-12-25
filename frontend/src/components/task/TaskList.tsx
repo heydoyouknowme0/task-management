@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import TaskItem from "./TaskItem";
-import classes from "./TaskList.module.scss";
+import classes from "../pubTasks/TaskList.module.scss";
 import AddTaskButton from "./AddTaskButton";
 
 function TaskList() {

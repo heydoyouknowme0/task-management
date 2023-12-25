@@ -1,7 +1,7 @@
 import moment from "moment";
 import axios from "axios";
 import toast from "react-hot-toast";
-import classes from "./TaskItem.module.scss";
+import classes from "../pubTasks/TaskItem.module.scss";
 import Select, { MultiValue, SingleValue } from "react-select";
 import myClasses from "./AddTaskButton.module.scss";
 import { useState } from "react";
