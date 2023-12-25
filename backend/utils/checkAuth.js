@@ -11,7 +11,6 @@ export const checkAuth = (req, res, next) => {
       return next(createError({ status: 401, message: "Unauthorized, invalid token" })); 
     }else{
       req.user = decoded;
-      console.log(decoded);
       next();
     }
   })

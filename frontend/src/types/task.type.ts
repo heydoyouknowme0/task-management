@@ -4,7 +4,13 @@ type Task = {
   content: string;
   completed: boolean;
   user?: string;
-  subTasks: [{ task: string; done: boolean }];
+  subTasks: [
+    {
+      _id: string;
+      task: string;
+      done: boolean;
+    }
+  ];
   dueDate: Date;
   status: ["todo", "inProgress", "up for review", "done"];
   assigned: [{ name: string; _id: string }];

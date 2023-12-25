@@ -9,7 +9,7 @@ export const updateTask = async (req, res, next) => {
     console.log(req.params.taskId);
     const task = await Task.findById(req.params.taskId).exec();
     if (!task) return next(createError({ status: 404, message: 'Task not found' }));
-    if (task.user.toString() !== req.user.id) return next(createError({ status: 401, message: "It's not your todo." }));
+    if ((task.user.toString() !== req.user.id) && (!task.assigned.some(userId => userId.toString() === req.user.id))) return next(createError({ status: 401, message: "It's not your todo." }));
     console.log(req.body);
     const updatedTask = await Task.findByIdAndUpdate(req.params.taskId, {
       title:req.body.title,
@@ -19,7 +19,7 @@ export const updateTask = async (req, res, next) => {
       assigned: req.body.assigned,
       subTasks: req.body.subTasks, 
       
-    }, { new: true });
+    }, { new: true }).populate('assigned', 'name')
     return res.status(200).json(updatedTask);
   } catch (err) {
     return next(err);

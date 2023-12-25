@@ -27,6 +27,29 @@ function TaskItem({ task }: { task: Task }) {
       console.log(err);
     }
   };
+  const handleChangeSubTaskStatus = async (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>,
+    _id: string
+  ) => {
+    console.log(_id);
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      checked: boolean;
+    };
+    try {
+      const newSubTasks = task.subTasks.map((subTask) => {
+        if (subTask._id === _id) {
+          return { ...subTask, done: !subTask.done };
+        }
+        return subTask;
+      });
+      await axios.put(`/api/tasks/${task._id}`, { subTasks: newSubTasks });
+      toast.success("Task updated successfully");
+      target.checked = !target.checked;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -55,12 +78,13 @@ function TaskItem({ task }: { task: Task }) {
             {task.subTasks.map((subTask) => (
               <li
                 className={classes.card_body_sub_tasks_item}
-                key={subTask.task}
+                key={subTask._id || subTask.task}
               >
                 <input
                   type="checkbox"
                   className={classes.card_body_sub_tasks_item_checkbox}
                   defaultChecked={subTask.done}
+                  onClick={(e) => handleChangeSubTaskStatus(e, subTask._id)}
                 />
                 {subTask.task}
               </li>

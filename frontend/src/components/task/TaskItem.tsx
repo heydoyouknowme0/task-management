@@ -28,7 +28,7 @@ function TaskItem({
     { value: "done", label: "done" },
   ];
 
-  const handleCheckboxClick = async (
+  const handleSelectClick = async (
     newValue: SingleValue<{
       value: string;
       label: string;
@@ -86,7 +86,6 @@ function TaskItem({
     } catch (error) {
       console.error("Error creating task:", error);
     }
-    console.log(formData);
 
     setShowForm(false);
   };
@@ -117,6 +116,29 @@ function TaskItem({
     const updatedSubTasks = [...formData.subTasks];
     updatedSubTasks.splice(index, 1);
     setFormData({ ...formData, subTasks: updatedSubTasks });
+  };
+  const handleChangeSubTaskStatus = async (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>,
+    _id: string
+  ) => {
+    console.log(_id);
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      checked: boolean;
+    };
+    try {
+      const newSubTasks = task.subTasks.map((subTask) => {
+        if (subTask._id === _id) {
+          return { ...subTask, done: !subTask.done };
+        }
+        return subTask;
+      });
+      await axios.put(`/api/tasks/${task._id}`, { subTasks: newSubTasks });
+      toast.success("Task updated successfully");
+      target.checked = !target.checked;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -152,7 +174,7 @@ function TaskItem({
           </div>
           <span>
             <strong>Assigned To: </strong>
-            {formData.assigned.map((user) => (
+            {task.assigned.map((user) => (
               <span className={classes.card_body_assigned} key={user._id}>
                 {user.name},{" "}
               </span>
@@ -162,12 +184,13 @@ function TaskItem({
             {task.subTasks.map((subTask) => (
               <li
                 className={classes.card_body_sub_tasks_item}
-                key={subTask.task}
+                key={subTask._id || subTask.task}
               >
                 <input
                   type="checkbox"
                   className={classes.card_body_sub_tasks_item_checkbox}
                   defaultChecked={subTask.done}
+                  onClick={(e) => handleChangeSubTaskStatus(e, subTask._id)}
                 />
                 {subTask.task}
               </li>
@@ -183,7 +206,7 @@ function TaskItem({
                   value: task.status as unknown as string,
                   label: task.status as unknown as string,
                 }}
-                onChange={handleCheckboxClick}
+                onChange={handleSelectClick}
                 menuPortalTarget={document.querySelector("body")}
                 theme={(theme) => ({
                   ...theme,
