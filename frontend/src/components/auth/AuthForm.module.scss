@@ -1,0 +1,58 @@
+// AuthForm.module.scss
+
+.login,
+.register {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 4rem 0;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 4rem;
+  margin-top: 0rem;
+}
+
+.authForm {
+  border: #ccc 1px solid;
+  max-width: 40rem;
+  padding: 8rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.authForm label {
+  display: block;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.authForm input {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.authForm input:focus {
+  border-color: #007bff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.authForm button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
