@@ -13,19 +13,27 @@ function Register() {
       email: { value: string };
       password: { value: string };
       isAdmin: { checked: boolean };
+      teamCode: { value: string };
     };
+
+    const trimmedName = target.name.value.trim();
+    const trimmedEmail = target.email.value.trim();
+    const trimmedPassword = target.password.value.trim();
+    const trimmedTeamCode = target.teamCode.value.trim().toLocaleLowerCase();
+
     const user = {
-      name: target.name.value,
-      email: target.email.value,
-      password: target.password.value,
+      name: trimmedName,
+      email: trimmedEmail,
+      password: trimmedPassword,
       isAdmin: target.isAdmin.checked,
+      teamCode: trimmedTeamCode,
     };
+
     try {
       await axios.post(`/api/auth/register`, user);
       toast.success("Registered successfully");
       navigate("/auth/login");
     } catch (err) {
-      console.log(err);
       toast.error("Something went wrong");
     }
   };
@@ -42,21 +50,27 @@ function Register() {
           <input name="name" type="text" placeholder="Full Name" required />
         </label>
         <label htmlFor="email">
-          email:
-          <input name="email" type="email" placeholder="email" required />
+          Email:
+          <input name="email" type="email" placeholder="Email" required />
         </label>
 
         <label htmlFor="password">
-          password:
+          Password:
           <input
             name="password"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             required
           />
         </label>
+
+        <label htmlFor="teamCode">
+          Team Code:
+          <input name="teamCode" type="text" placeholder="Team Code" required />
+        </label>
+
         <label htmlFor="isAdmin">
-          Is an admin?
+          Is an admin?{"  "}
           <input name="isAdmin" type="checkbox" />
         </label>
         <br />

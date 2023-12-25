@@ -44,6 +44,10 @@ const taskSchema = new Schema({
       ref: "User",
     },
   ],
+  teamCode: {
+    type: String,
+    required: true,
+  },
 
 }, { timestamps: true });
 

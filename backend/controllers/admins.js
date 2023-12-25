@@ -10,6 +10,7 @@ export const createTask = async (req, res, next) => {
     const newTask = new Task({
       title,
       user: userId,
+      teamCode:req.user.teamCode,
       content: content || '',
       dueDate,
       subTasks: subTasks || [], 
@@ -18,14 +19,15 @@ export const createTask = async (req, res, next) => {
   
     try {
       const savedTask = await newTask.save();
-      res.status(200).json(savedTask);
+      const savedTaskWithAssigned = await Task.findById(savedTask._id).populate('assigned', 'name');
+      res.status(200).json(savedTaskWithAssigned);
     } catch (err) {
       next(err);
     }
   };
 export const getCurrentUserTasks = async (req, res, next) => {
     try {
-      const tasks = await Task.find({ user: req.user.id }).populate('assigned', 'name');
+      const tasks = await Task.find({ teamCode:req.user.teamCode}).sort({ dueDate: 'desc' }).populate('assigned', 'name');
       res.status(200).json(tasks);
     } catch (err) {
       next(err);
@@ -55,7 +57,8 @@ export const getCurrentUserTasks = async (req, res, next) => {
   };
   export const getAllUsers = async (req, res, next) => {
     try {
-      const users = await User.find().select('_id name');
+      console.log(req.user.teamCode);
+      const users = await User.find({teamCode:req.user.teamCode}).select('_id name');
       res.status(200).json(users);
     } catch (err) {
       next(err);

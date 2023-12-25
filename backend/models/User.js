@@ -20,6 +20,10 @@ const userSchema = new Schema({
     type:Boolean,
     default:false
   },
+  teamCode:{
+    type:String,
+    required:true
+  },
 });
 
 export default mongoose.model('User', userSchema);

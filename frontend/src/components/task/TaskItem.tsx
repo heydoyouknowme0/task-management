@@ -1,6 +1,7 @@
 import moment from "moment";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { STATUS_COLORS, OPTIONS } from "../../constants/constants";
 import classes from "../pubTasks/TaskItem.module.scss";
 import Select, { MultiValue, SingleValue } from "react-select";
 import myClasses from "./AddTaskButton.module.scss";
@@ -15,19 +16,14 @@ interface FormData {
 function TaskItem({
   task,
   deleteTask,
+  updatePostion,
   userData,
 }: {
   task: Task;
   deleteTask: any;
+  updatePostion: any;
   userData: { value: string; label: string }[];
 }) {
-  const options = [
-    { value: "todo", label: "todo" },
-    { value: "inProgress", label: "inProgress" },
-    { value: "up for review", label: "up for review" },
-    { value: "done", label: "done" },
-  ];
-
   const handleSelectClick = async (
     newValue: SingleValue<{
       value: string;
@@ -39,6 +35,11 @@ function TaskItem({
         status: newValue!!.value,
       });
       toast.success("Task updated successfully");
+      const cardHeaderElement = document.getElementById(task._id);
+      cardHeaderElement!!.style.backgroundColor =
+        STATUS_COLORS[
+          newValue!!.value as unknown as keyof typeof STATUS_COLORS
+        ];
     } catch (err) {
       console.log(err);
     }
@@ -82,7 +83,21 @@ function TaskItem({
       console.log(editformData);
       const response = await axios.put(`/api/tasks/${task._id}`, editformData);
       console.log("Task created:", response.data);
-      setFormData(response.data as FormData);
+      setFormData({
+        ...(response.data as FormData),
+        dueDate: moment(response.data.dueDate).format("YYYY-MM-DD"),
+      });
+      task.subTasks = response.data.subTasks;
+      task.assigned = response.data.assigned;
+      task.title = response.data.title;
+      task.content = response.data.content;
+
+      if (formData.dueDate !== moment(task.dueDate).format("YYYY-MM-DD")) {
+        task.dueDate = response.data.dueDate;
+        updatePostion(task);
+      } else {
+        console.log("no change");
+      }
     } catch (error) {
       console.error("Error creating task:", error);
     }
@@ -144,7 +159,16 @@ function TaskItem({
   return (
     <>
       <div className={classes.card}>
-        <div className={classes.card_header}>
+        <div
+          className={classes.card_header}
+          id={task._id}
+          style={{
+            backgroundColor:
+              STATUS_COLORS[
+                task.status as unknown as keyof typeof STATUS_COLORS
+              ],
+          }}
+        >
           <button
             type="button"
             className={classes.editBtn}
@@ -175,9 +199,10 @@ function TaskItem({
           </div>
           <span className={classes.card_body_assigned}>
             <strong>Assigned To: </strong>
-            {task.assigned.map((user) => (
-              <span className={classes.card_body_assigned} key={user._id}>
-                {user.name},{" "}
+            {formData.assigned.map((user, index) => (
+              <span key={user._id}>
+                {user.name}
+                {index === formData.assigned.length - 1 ? "" : ", "}
               </span>
             ))}
           </span>
@@ -186,7 +211,7 @@ function TaskItem({
             <strong>SubTasks: </strong>
           </span>
           <ul className={classes.card_body_sub_tasks}>
-            {task.subTasks.map((subTask) => (
+            {formData.subTasks.map((subTask) => (
               <li
                 className={classes.card_body_sub_tasks_item}
                 key={subTask._id || subTask.task}
@@ -195,7 +220,7 @@ function TaskItem({
                   type="checkbox"
                   className={classes.card_body_sub_tasks_item_checkbox}
                   defaultChecked={subTask.done}
-                  onClick={(e) => handleChangeSubTaskStatus(e, subTask._id)}
+                  onClick={(e) => handleChangeSubTaskStatus(e, subTask._id!!)}
                 />
                 {subTask.task}
               </li>
@@ -206,7 +231,7 @@ function TaskItem({
             <span className={classes.status}>Status:</span>
             <div className={classes.smallspan}>
               <Select
-                options={options}
+                options={OPTIONS}
                 defaultValue={{
                   value: task.status as unknown as string,
                   label: task.status as unknown as string,
@@ -263,7 +288,6 @@ function TaskItem({
                 value={formData.dueDate}
                 onChange={(e) => {
                   setFormData({ ...formData, dueDate: e.target.value });
-                  console.log(e.target.value);
                 }}
                 min={new Date().toISOString().split("T")[0]}
               />
@@ -301,7 +325,7 @@ function TaskItem({
               }))}
               onChange={handleUserSelectChange}
             />
-            <button type="submit">Add Task</button>
+            <button type="submit">Edit Task</button>
           </form>
         </div>
       )}

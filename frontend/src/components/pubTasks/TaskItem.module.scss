@@ -52,6 +52,9 @@
     background-color: rgb(142, 13, 39);
     color: rgb(205, 205, 205);
   }
+  &:active {
+    transform: translateY(1px) scale(0.9);
+  }
 }
 .editBtn {
   display: inline-block;
@@ -66,13 +69,16 @@
     background-color: rgb(142, 140, 13);
     color: rgb(205, 205, 205);
   }
+  &:active {
+    transform: translateY(1px) scale(0.9);
+  }
 }
 .card {
   box-shadow: 0 4px 8px rgba(130, 171, 221, 0.1);
   border-color: aliceblue;
   border-radius: 8px;
   overflow: hidden;
-  width: 300px;
+  width: 350px;
   font-size: 19px;
   position: relative;
   padding-bottom: 70px;
@@ -91,6 +97,9 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    &_assigned {
+      margin-bottom: 15px;
+    }
 
     &_info {
       margin-bottom: 15px;
@@ -103,7 +112,7 @@
       p {
         margin: 0;
       }
-      margin-bottom: 5px;
+      margin-bottom: 15px;
     }
 
     &_sub_tasks {
@@ -133,7 +142,7 @@
       font-size: 16px;
       color: #27ae60;
       display: flex;
-      width: 250px;
+      width: 300px;
       justify-content: space-between;
       position: absolute;
     }
@@ -141,8 +150,9 @@
 }
 .status {
   display: inline-block;
+  width: 100%;
   vertical-align: middle;
 }
 .smallspan {
-  width: 70%;
+  width: 120%;
 }

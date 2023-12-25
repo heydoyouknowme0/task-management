@@ -1,18 +1,12 @@
 import moment from "moment";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { STATUS_COLORS, OPTIONS } from "../../constants/constants";
 import classes from "./TaskItem.module.scss";
 import Select, { SingleValue } from "react-select";
 
 function TaskItem({ task }: { task: Task }) {
-  const options = [
-    { value: "todo", label: "todo" },
-    { value: "inProgress", label: "inProgress" },
-    { value: "up for review", label: "up for review" },
-    { value: "done", label: "done" },
-  ];
-
-  const handleCheckboxClick = async (
+  const handleSelectClick = async (
     newValue: SingleValue<{
       value: string;
       label: string;
@@ -23,6 +17,11 @@ function TaskItem({ task }: { task: Task }) {
         status: newValue!!.value,
       });
       toast.success("Task updated successfully");
+      const cardHeaderElement = document.getElementById("yourElementId");
+      cardHeaderElement!!.style.backgroundColor =
+        STATUS_COLORS[
+          newValue!!.value as unknown as keyof typeof STATUS_COLORS
+        ];
     } catch (err) {
       console.log(err);
     }
@@ -54,7 +53,18 @@ function TaskItem({ task }: { task: Task }) {
   return (
     <>
       <div className={classes.card}>
-        <div className={classes.card_header}>{task.title}</div>
+        <div
+          className={classes.card_header}
+          id={task._id}
+          style={{
+            backgroundColor:
+              STATUS_COLORS[
+                task.status as unknown as keyof typeof STATUS_COLORS
+              ],
+          }}
+        >
+          {task.title}
+        </div>
         <div className={classes.card_body}>
           <div className={classes.card_body_info}>
             <div className="due-date">
@@ -69,9 +79,10 @@ function TaskItem({ task }: { task: Task }) {
           </div>
           <span className={classes.card_body_assigned}>
             <strong>Assigned To: </strong>
-            {task.assigned.map((user) => (
-              <span className={classes.card_body_assigned} key={user._id}>
-                {user.name},{" "}
+            {task.assigned.map((user, index) => (
+              <span key={user._id}>
+                {user.name}
+                {index === task.assigned.length - 1 ? "" : ", "}
               </span>
             ))}
           </span>
@@ -101,12 +112,12 @@ function TaskItem({ task }: { task: Task }) {
             <span className={classes.status}>Status:</span>
             <div className={classes.smallspan}>
               <Select
-                options={options}
+                options={OPTIONS}
                 defaultValue={{
                   value: task.status as unknown as string,
                   label: task.status as unknown as string,
                 }}
-                onChange={handleCheckboxClick}
+                onChange={handleSelectClick}
                 menuPortalTarget={document.querySelector("body")}
                 theme={(theme) => ({
                   ...theme,

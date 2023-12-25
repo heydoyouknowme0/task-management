@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import TaskItem from "./TaskItem";
 import classes from "../pubTasks/TaskList.module.scss";
 import AddTaskButton from "./AddTaskButton";
+import { Flipper } from "react-flip-toolkit";
 
 function TaskList() {
   const [taskList, setTaskList] = useState<Task[]>([]);
@@ -42,8 +43,41 @@ function TaskList() {
     getTasks();
   }, []);
 
-  const taskListUpdateHandler = (task: Task) => {
-    setTaskList((prevTaskList) => [...prevTaskList, task]);
+  const taskListUpdateHandler = (newTask: Task) => {
+    const updatedTaskList = [...taskList];
+
+    const newTaskIndex = updatedTaskList.findIndex(
+      (task) => task.dueDate <= newTask.dueDate
+    );
+
+    if (newTaskIndex !== -1) {
+      updatedTaskList.splice(newTaskIndex, 0, newTask);
+    } else {
+      updatedTaskList.push(newTask);
+    }
+
+    setTaskList(updatedTaskList);
+  };
+  const updatePosition = (task: Task) => {
+    const updatedTaskList = [...taskList];
+
+    const taskIndex = updatedTaskList.findIndex((t) => t._id === task._id);
+
+    if (taskIndex !== -1) {
+      const removedTask = updatedTaskList.splice(taskIndex, 1)[0];
+
+      const newTaskIndex = updatedTaskList.findIndex(
+        (t) => t.dueDate <= task.dueDate
+      );
+
+      if (newTaskIndex !== -1) {
+        updatedTaskList.splice(newTaskIndex, 0, removedTask);
+      } else {
+        updatedTaskList.push(removedTask);
+      }
+
+      setTaskList(updatedTaskList);
+    }
   };
 
   const deleteTask = async (id: string) => {
@@ -59,20 +93,24 @@ function TaskList() {
   return (
     <>
       <div className={classes.topBar}></div>
-      {taskList.length > 0 ? (
-        <div className={classes.divGrid}>
-          {taskList.map((task) => (
-            <TaskItem
-              key={task._id}
-              task={task}
-              deleteTask={deleteTask}
-              userData={userData}
-            />
-          ))}
-        </div>
-      ) : (
-        "No Task Found. Create a new task"
-      )}
+      <Flipper flipKey={taskList.map((task) => task._id).join("")}>
+        {taskList.length > 0 ? (
+          <div className={classes.divGrid}>
+            {taskList.map((task) => (
+              <TaskItem
+                key={task._id}
+                task={task}
+                deleteTask={deleteTask}
+                userData={userData}
+                updatePostion={updatePosition}
+              />
+            ))}
+          </div>
+        ) : (
+          "No Task Found. Create a new task"
+        )}
+      </Flipper>
+
       <AddTaskButton
         taskListUpdateHandler={taskListUpdateHandler}
         userData={userData}

@@ -40,6 +40,10 @@
   border-radius: 0.5rem;
   transition: border-color 0.2s ease-in-out;
 }
+.authForm input[type="checkbox"] {
+  width: auto;
+  display: inline;
+}
 
 .authForm input:focus {
   border-color: #007bff;

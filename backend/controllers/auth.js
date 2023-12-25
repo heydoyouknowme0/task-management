@@ -15,7 +15,7 @@ export const login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ email: req.body.email }).select(
-      'name email password isAdmin',
+      'name email password isAdmin teamCode',
     );
     if (!user) {
       return next(
@@ -35,6 +35,7 @@ export const login = async (req, res, next) => {
       id: user._id,
       name: user.name,
       isAdmin: user.isAdmin,
+      teamCode:user.teamCode
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '1d',
@@ -71,6 +72,7 @@ export const register = async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
       isAdmin: req.body.isAdmin,
+      teamCode:req.body.teamCode
     });
 
     await newUser.save();

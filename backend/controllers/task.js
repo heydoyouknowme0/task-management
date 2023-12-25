@@ -38,7 +38,7 @@ export const getAllTasks = async (req, res, next) => {
 
 export const getCurrentUserTasks = async (req, res, next) => {
   try {
-    const tasks = await Task.find({assigned:{$in:req.user.id}}).populate('assigned', 'name');
+    const tasks = await Task.find({assigned:{$in:req.user.id}}).sort({ dueDate: 'desc' }).populate('assigned', 'name');
     console.log(tasks);
     res.status(200).json(tasks);
   } catch (err) {

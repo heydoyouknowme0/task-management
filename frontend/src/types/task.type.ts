@@ -13,5 +13,5 @@ type Task = {
   ];
   dueDate: Date;
   status: ["todo", "inProgress", "up for review", "done"];
-  assigned: [{ name: string; _id: string }];
+  assigned: { name: string; _id: string }[];
 };
