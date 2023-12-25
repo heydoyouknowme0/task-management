@@ -58,7 +58,8 @@ function TaskItem({ task }: { task: Task }) {
         <div className={classes.card_body}>
           <div className={classes.card_body_info}>
             <div className="due-date">
-              Due Date: {moment(task.dueDate).format("Do MMM YY")}
+              <strong>Due Date:</strong>{" "}
+              {moment(task.dueDate).format("Do MMM YY")}
             </div>
           </div>
 
@@ -66,13 +67,18 @@ function TaskItem({ task }: { task: Task }) {
             <strong>Description:</strong>
             <p>{task.content}</p>
           </div>
-          <span>
+          <span className={classes.card_body_assigned}>
             <strong>Assigned To: </strong>
             {task.assigned.map((user) => (
               <span className={classes.card_body_assigned} key={user._id}>
                 {user.name},{" "}
               </span>
             ))}
+          </span>
+          <br />
+          <br />
+          <span>
+            <strong>SubTasks: </strong>
           </span>
           <ul className={classes.card_body_sub_tasks}>
             {task.subTasks.map((subTask) => (
