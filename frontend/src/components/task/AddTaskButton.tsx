@@ -119,6 +119,7 @@ const AddTaskButton = ({
               Due Date:
               <input
                 type="date"
+                required
                 value={formData.dueDate}
                 onChange={(e) =>
                   setFormData({ ...formData, dueDate: e.target.value })
