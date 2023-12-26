@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
+import toast from "react-hot-toast";
 import classes from "./AuthForm.module.scss";
 
 function Login() {
@@ -45,6 +45,7 @@ function Login() {
         navigate("/");
       }
     } catch (err) {
+      toast.error("Invalid credentials");
       console.log(err);
       verifyAuth();
     }
