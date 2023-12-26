@@ -32,21 +32,21 @@ function Login() {
     };
     const email = target.email.value;
     const password = target.password.value;
+
     try {
-      toast.loading("Logging in...");
-      await axios.post("/api/auth/login", {
-        email,
-        password,
+      await toast.promise(axios.post("/api/auth/login", { email, password }), {
+        loading: "Logging in...",
+        success: "Logged in",
+        error: "Invalid credentials",
       });
+
       await verifyAuth();
-      toast.success("Logged in");
       if (isAdmin) {
         navigate("/admin");
       } else {
         navigate("/");
       }
     } catch (err) {
-      toast.error("Invalid credentials");
       console.log(err);
       verifyAuth();
     }
