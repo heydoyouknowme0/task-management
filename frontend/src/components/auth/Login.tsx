@@ -57,7 +57,13 @@ function Login() {
         <h1 className={classes.title}>Login</h1>
         <label htmlFor="email">
           email:
-          <input name="email" type="email" placeholder="email" required />
+          <input
+            name="email"
+            type="email"
+            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+            placeholder="email"
+            required
+          />
         </label>
         <br />
         <label htmlFor="password">
@@ -65,6 +71,7 @@ function Login() {
           <input
             name="password"
             type="password"
+            minLength={8}
             placeholder="password"
             required
           />
@@ -72,7 +79,10 @@ function Login() {
         <br />
         <button type="submit">Login</button>
         <p>
-          Don't have an account? <Link to="/auth/register">Register</Link>
+          Don't have an account?{" "}
+          <Link className={classes.link} to="/auth/register">
+            Register
+          </Link>
         </p>
       </form>
     </div>

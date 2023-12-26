@@ -58,3 +58,22 @@ header {
     transform: translateY(1px) scale(0.9);
   }
 }
+.changeBtn {
+  display: inline-block;
+  background-color: rgb(3, 169, 45);
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  border: none;
+  color: white;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: 0.3s ease background-color, 0.3s ease color;
+  &:hover {
+    background-color: rgb(2, 145, 114);
+    color: rgb(205, 205, 205);
+  }
+  &:active {
+    transform: translateY(1px) scale(0.9);
+  }
+}

@@ -51,7 +51,13 @@ function Register() {
         </label>
         <label htmlFor="email">
           Email:
-          <input name="email" type="email" placeholder="Email" required />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+            required
+          />
         </label>
 
         <label htmlFor="password">
@@ -59,6 +65,7 @@ function Register() {
           <input
             name="password"
             type="password"
+            minLength={8}
             placeholder="Password"
             required
           />
@@ -66,7 +73,13 @@ function Register() {
 
         <label htmlFor="teamCode">
           Team Code:
-          <input name="teamCode" type="text" placeholder="Team Code" required />
+          <input
+            name="teamCode"
+            type="text"
+            placeholder="Team Code"
+            minLength={3}
+            required
+          />
         </label>
 
         <label htmlFor="isAdmin">
@@ -76,7 +89,10 @@ function Register() {
         <br />
         <button type="submit">Register</button>
         <p>
-          Already have an account? <Link to="/auth/login">Login</Link>
+          Already have an account?{" "}
+          <Link className={classes.link} to="/auth/login">
+            Login
+          </Link>
         </p>
       </form>
     </div>

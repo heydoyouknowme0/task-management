@@ -5,10 +5,13 @@ import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/Auth";
 import classes from "./Navbar.module.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState<User>(null);
   const { verifyAuth } = useContext(AuthContext);
+  const { isAdmin } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const getUser = async () => {
     try {
@@ -35,6 +38,16 @@ export default function Navbar() {
   };
 
   if (!user) return null;
+  const isOnAdminPage = location.pathname.startsWith("/admin");
+  const handlePageChange = () => {
+    if (isAdmin) {
+      if (isOnAdminPage) {
+        return navigate("/");
+      } else {
+        return navigate("/admin");
+      }
+    }
+  };
 
   return (
     <header>
@@ -46,6 +59,15 @@ export default function Navbar() {
         </div>
       </div>
       <nav>
+        {isAdmin && (
+          <button
+            type="button"
+            className={classes.changeBtn}
+            onClick={handlePageChange}
+          >
+            {isOnAdminPage ? "your Tasks" : "manage Tasks"}
+          </button>
+        )}
         <Link to="/edit-profile" className={classes.editBtn}>
           Edit
         </Link>

@@ -23,6 +23,7 @@
   padding: 8rem;
   border-radius: 1rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background-color: #121212;
 }
 
 .authForm label {
@@ -54,9 +55,24 @@
 .authForm button[type="submit"] {
   background-color: #007bff;
   color: #fff;
+  margin-bottom: 1rem;
   padding: 0.5rem 1rem;
-  font-size: 2rem;
+  font-size: 2.5rem;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+    color: rgb(205, 205, 205);
+  }
+  &:active {
+    transform: translateY(1px) scale(0.9);
+  }
+}
+.link {
+  color: #00e3b5;
+  text-decoration: none;
+  &:hover {
+    color: #0056b3;
+  }
 }

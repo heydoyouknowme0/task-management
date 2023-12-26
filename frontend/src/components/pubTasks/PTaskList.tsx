@@ -3,12 +3,8 @@ import { useState, useEffect } from "react";
 
 import TaskItem from "./TaskItem";
 import classes from "./TaskList.module.scss";
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
 function PTaskList() {
-  const { isAdmin } = useAuth();
-  const navigate = useNavigate();
   const [taskList, setTaskList] = useState<Task[]>([]);
 
   const getTasks = async () => {
@@ -22,9 +18,6 @@ function PTaskList() {
 
   useEffect(() => {
     getTasks();
-    if (isAdmin) {
-      navigate("/admin");
-    }
   }, []);
 
   return (

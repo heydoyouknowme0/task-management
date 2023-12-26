@@ -88,9 +88,13 @@ function TaskItem({ task }: { task: Task }) {
           </span>
           <br />
           <br />
-          <span>
-            <strong>SubTasks: </strong>
-          </span>
+          {task.subTasks.length ? (
+            <span>
+              <strong>SubTasks: </strong>
+            </span>
+          ) : (
+            ""
+          )}
           <ul className={classes.card_body_sub_tasks}>
             {task.subTasks.map((subTask) => (
               <li
