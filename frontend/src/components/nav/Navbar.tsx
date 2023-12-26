@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState<User>(null);
-  const { verifyAuth } = useContext(AuthContext);
   const { isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
