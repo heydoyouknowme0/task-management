@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BsArrowLeftShort } from "react-icons/bs";
 import axios from "axios";
 import toast from "react-hot-toast";

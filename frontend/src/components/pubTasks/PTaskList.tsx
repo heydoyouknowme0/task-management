@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import toast from "react-hot-toast";
-
 import TaskItem from "./TaskItem";
 import classes from "./TaskList.module.scss";
 import useAuth from "../../hooks/useAuth";
@@ -28,10 +26,6 @@ function PTaskList() {
       navigate("/admin");
     }
   }, []);
-
-  const taskListUpdateHandler = (task: Task) => {
-    setTaskList((prevTaskList) => [...prevTaskList, task]);
-  };
 
   return (
     <>
