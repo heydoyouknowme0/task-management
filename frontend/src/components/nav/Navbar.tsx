@@ -30,7 +30,7 @@ export default function Navbar() {
     try {
       await axios.get(`/api/auth/logout`);
       setUser(null);
-      verifyAuth();
+
       toast.success("Logged out successfully");
       navigate("/auth");
     } catch (err) {
