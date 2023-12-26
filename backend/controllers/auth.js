@@ -44,8 +44,7 @@ export const login = async (req, res, next) => {
       .cookie('access_token', token, {
         httpOnly: true,
         sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
-        path: '/'
+        secure: process.env.NODE_ENV === 'production'
       })
       .status(200)
       .json({ name: user.name, email: user.email, message: 'login success' });
@@ -84,7 +83,7 @@ export const register = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie('access_token', { path: '/' });
+  res.clearCookie('access_token');
   res.status(200).json({ message: 'logout success' });
 };
 
