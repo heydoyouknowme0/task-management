@@ -33,12 +33,13 @@ function Login() {
     const email = target.email.value;
     const password = target.password.value;
     try {
+      toast.loading("Logging in...");
       await axios.post("/api/auth/login", {
         email,
         password,
       });
       await verifyAuth();
-      console.log(isAdmin);
+      toast.success("Logged in");
       if (isAdmin) {
         navigate("/admin");
       } else {
