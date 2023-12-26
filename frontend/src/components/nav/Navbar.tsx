@@ -32,6 +32,7 @@ export default function Navbar() {
       setUser(null);
       verifyAuth();
       toast.success("Logged out successfully");
+      navigate("/auth");
     } catch (err) {
       console.log(err);
     }

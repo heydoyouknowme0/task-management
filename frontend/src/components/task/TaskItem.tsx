@@ -272,6 +272,7 @@ function TaskItem({
               <input
                 type="text"
                 value={formData.title}
+                required
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
@@ -291,6 +292,7 @@ function TaskItem({
               <input
                 type="date"
                 value={formData.dueDate}
+                required
                 onChange={(e) => {
                   setFormData({ ...formData, dueDate: e.target.value });
                 }}
@@ -305,6 +307,7 @@ function TaskItem({
                     type="text"
                     value={subTask.task}
                     onChange={(e) => handleSubTaskChange(index, e.target.value)}
+                    required
                   />
                   <button
                     type="button"

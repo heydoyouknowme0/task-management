@@ -11,6 +11,15 @@ export const updateTask = async (req, res, next) => {
     if (!task) return next(createError({ status: 404, message: 'Task not found' }));
     if ((task.user.toString() !== req.user.id) && (!task.assigned.some(userId => userId.toString() === req.user.id))) return next(createError({ status: 401, message: "It's not your todo." }));
     console.log(req.body);
+    const today = new Date();
+    const dueDate = new Date(req.body.dueDate);
+    console.log(dueDate);
+    if (isNaN(dueDate.getTime())) {
+      return next(createError({ status: 400, message: 'Invalid due date format' }));
+    }
+    if (dueDate < today) {
+      return next(createError({ status: 400, message: 'Due date must be greater than or equal to today' }));
+    }
     const updatedTask = await Task.findByIdAndUpdate(req.params.taskId, {
       title:req.body.title,
       content: req.body.content,
