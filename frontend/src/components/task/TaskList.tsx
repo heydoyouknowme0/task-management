@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import TaskItem from "./TaskItem";
 import classes from "../pubTasks/TaskList.module.scss";
 import AddTaskButton from "./AddTaskButton";
-import { Flipper } from "react-flip-toolkit";
 
 function TaskList() {
   const [taskList, setTaskList] = useState<Task[]>([]);
@@ -93,23 +92,22 @@ function TaskList() {
   return (
     <>
       <div className={classes.topBar}></div>
-      <Flipper flipKey={taskList.map((task) => task._id).join("")}>
-        {taskList.length > 0 ? (
-          <div className={classes.divGrid}>
-            {taskList.map((task) => (
-              <TaskItem
-                key={task._id}
-                task={task}
-                deleteTask={deleteTask}
-                userData={userData}
-                updatePostion={updatePosition}
-              />
-            ))}
-          </div>
-        ) : (
-          "No Task Found. Create a new task"
-        )}
-      </Flipper>
+
+      {taskList.length > 0 ? (
+        <div className={classes.divGrid}>
+          {taskList.map((task) => (
+            <TaskItem
+              key={task._id}
+              task={task}
+              deleteTask={deleteTask}
+              userData={userData}
+              updatePostion={updatePosition}
+            />
+          ))}
+        </div>
+      ) : (
+        "No Task Found. Create a new task"
+      )}
 
       <AddTaskButton
         taskListUpdateHandler={taskListUpdateHandler}
