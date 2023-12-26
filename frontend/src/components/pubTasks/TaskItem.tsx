@@ -17,7 +17,7 @@ function TaskItem({ task }: { task: Task }) {
         status: newValue!!.value,
       });
       toast.success("Task updated successfully");
-      const cardHeaderElement = document.getElementById("yourElementId");
+      const cardHeaderElement = document.getElementById(task._id);
       cardHeaderElement!!.style.backgroundColor =
         STATUS_COLORS[
           newValue!!.value as unknown as keyof typeof STATUS_COLORS
