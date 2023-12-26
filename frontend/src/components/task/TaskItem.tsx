@@ -99,6 +99,7 @@ function TaskItem({
         console.log("no change");
       }
     } catch (error) {
+      handleModalClose();
       console.error("Error creating task:", error);
     }
 
