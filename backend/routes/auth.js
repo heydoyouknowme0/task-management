@@ -7,7 +7,7 @@ router.post("/login", login);
 
 router.post("/register", register);
 
-router.get("/logout", logout);
+router.post("/logout", logout);
 
 router.get('/is_logged_in', isLoggedIn)
 router.get('/is_admin', isAdmin)
