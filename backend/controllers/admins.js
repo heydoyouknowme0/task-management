@@ -57,7 +57,6 @@ export const getCurrentUserTasks = async (req, res, next) => {
   };
   export const getAllUsers = async (req, res, next) => {
     try {
-      console.log(req.user.teamCode);
       const users = await User.find({teamCode:req.user.teamCode}).select('_id name');
       res.status(200).json(users);
     } catch (err) {
