@@ -27,7 +27,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.get(`/api/auth/logout`);
+      await axios.get(`/api/auth/logout`, { withCredentials: true });
       setUser(null);
       await verifyAuth();
       toast.success("Logged out successfully");
