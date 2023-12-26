@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState<User>(null);
-  const { isAdmin } = useContext(AuthContext);
+  const { isAdmin, verifyAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const getUser = async () => {
@@ -29,7 +29,7 @@ export default function Navbar() {
     try {
       await axios.get(`/api/auth/logout`);
       setUser(null);
-
+      await verifyAuth();
       toast.success("Logged out successfully");
       navigate("/auth");
     } catch (err) {
